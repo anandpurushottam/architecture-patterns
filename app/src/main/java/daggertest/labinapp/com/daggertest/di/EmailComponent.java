@@ -5,7 +5,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import daggertest.labinapp.com.daggertest.EmailApi.NetworkModule;
 import daggertest.labinapp.com.daggertest.MainActivity;
-import daggertest.labinapp.com.daggertest.SecondActivity;
+
 import daggertest.labinapp.com.daggertest.email.Email;
 import daggertest.labinapp.com.daggertest.email.EmailModule;
 import okhttp3.OkHttpClient;
@@ -23,5 +23,5 @@ public interface EmailComponent {
     OkHttpClient client();
 
     void inject(MainActivity mainActivity);
-    void inject(SecondActivity secondActivity);
+
 }

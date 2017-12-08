@@ -1,14 +1,8 @@
 package daggertest.labinapp.com.daggertest;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-
-import javax.inject.Inject;
-
-import daggertest.labinapp.com.daggertest.EmailApi.EmailApi;
-import daggertest.labinapp.com.daggertest.email.Email;
 
 public class MainActivity extends AppCompatActivity {
   /*  @Inject
@@ -29,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void doSomething(View view) {
-        startActivity(new Intent(this, SecondActivity.class));
+        // startActivity(new Intent(this, SecondActivity.class));
 
     }
 }

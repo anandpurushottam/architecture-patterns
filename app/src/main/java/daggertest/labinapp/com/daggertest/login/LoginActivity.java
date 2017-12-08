@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import daggertest.labinapp.com.daggertest.R;
 import daggertest.labinapp.com.daggertest.base.BaseActivity;
-import daggertest.labinapp.com.daggertest.login.component.DaggerLoginComponent;
+import daggertest.labinapp.com.daggertest.login.di.DaggerLoginComponent;
 import daggertest.labinapp.com.daggertest.login.di.LoginComponent;
 import daggertest.labinapp.com.daggertest.login.di.LoginModule;
 import timber.log.Timber;
