@@ -1,49 +1,73 @@
 package daggertest.labinapp.com.daggertest.data.model;
 
-import android.support.annotation.Keep;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import java.io.Serializable;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
 
-/**
- * Created by ADMIN on 06-12-2017.
- */
-@Keep
-public class User implements Serializable {
+import daggertest.labinapp.com.daggertest.util.UserNotAuthenticated;
+
+@IgnoreExtraProperties
+public class User {
+    private String uid;
     private String name;
     private String email;
-    private String profilePic;
+    private String phone;
 
-    public User() {
+    public static User newInstance(FirebaseUser firebaseUser, String phone) throws UserNotAuthenticated {
+        User user = newInstance(firebaseUser);
+        user.setPhone(phone);
+        return user;
     }
 
-    public User(String name, String email, String profilePic) {
-        this.name = name;
-        this.email = email;
-        this.profilePic = profilePic;
+    public static User newInstance(FirebaseUser firebaseUser) throws UserNotAuthenticated {
+
+        if (firebaseUser == null) {
+            throw new UserNotAuthenticated();
+        }
+        User user = new User();
+        user.setUid(firebaseUser.getUid());
+        user.setEmail(firebaseUser.getEmail());
+        user.setName(firebaseUser.getDisplayName());
+
+        return user;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    private User() {
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(@Nullable String email) {
         this.email = email;
     }
 
-    public String getProfilePic() {
-        return profilePic;
+    public String getName() {
+        return name;
     }
 
-    public void setProfilePic(String profilePic) {
-        this.profilePic = profilePic;
+    public void setName(@Nullable String name) {
+        this.name = name;
     }
 
+    @Exclude
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(@NonNull String uid) {
+        this.uid = uid;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }

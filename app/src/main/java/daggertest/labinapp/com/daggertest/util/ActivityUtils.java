@@ -16,10 +16,13 @@
 
 package daggertest.labinapp.com.daggertest.util;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+
+import daggertest.labinapp.com.daggertest.R;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -41,4 +44,11 @@ public class ActivityUtils {
         transaction.commit();
     }
 
+    public static String getApplicationName(Context context) {
+        return String.valueOf(context.getApplicationInfo().loadLabel(context.getPackageManager()));
+    }
+
+    public static String getApplicationCode(Context context) {
+        return (context.getResources().getString(R.string.app_code));
+    }
 }

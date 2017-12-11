@@ -2,12 +2,10 @@ package daggertest.labinapp.com.daggertest.data.source.remote;
 
 import android.app.Application;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -32,22 +30,25 @@ public class FirebaseUserService {
     public FirebaseUserService(Application application) {
         this.application = application;
         this.firebaseAuth = FirebaseAuth.getInstance();
+        initializeGoogleApiClient();
     }
 
-    public Intent getUserWithGoogle(BaseActivity activity) {
+    private void initializeGoogleApiClient() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(activity.getString(R.string.default_web_client_id))
+                .requestIdToken(application.getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
-        googleApiClient = new GoogleApiClient.Builder(activity)
-                .enableAutoManage(activity, new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                    }
-                })
+        googleApiClient = new GoogleApiClient.Builder(application)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+        googleApiClient.connect();
+    }
+
+
+    public Intent getUserWithGoogle() {
+        if (googleApiClient.isConnected()) {
+            googleApiClient.clearDefaultAccountAndReconnect();
+        }
 
         return Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
     }
@@ -58,11 +59,10 @@ public class FirebaseUserService {
     }
 
 
-    public void logOut(String provider) {
+    public void logOut() {
         firebaseAuth.signOut();
-        if (provider.equals("google.com")) {
-            Auth.GoogleSignInApi.signOut(googleApiClient);
-        }
+        Auth.GoogleSignInApi.signOut(googleApiClient);
+
     }
 
     public void deleteUser(String uid) {

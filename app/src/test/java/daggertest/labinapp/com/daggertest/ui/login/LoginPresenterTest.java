@@ -1,9 +1,8 @@
-package daggertest.labinapp.com.daggertest.login;
+package daggertest.labinapp.com.daggertest.ui.login;
 
 import android.text.TextUtils;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.After;
@@ -13,8 +12,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import daggertest.labinapp.com.daggertest.data.model.User;
+import daggertest.labinapp.com.daggertest.data.source.remote.FirebaseUserService;
+import daggertest.labinapp.com.daggertest.data.source.remote.UserService;
+
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by ADMIN on 07-12-2017.
@@ -27,15 +29,15 @@ public class LoginPresenterTest {
     LoginActivity loginActivity;
     LoginPresenter presenter;
     @Mock
-    FirebaseUser firebaseUser;
+    FirebaseUserService firebaseUserService;
     @Mock
-    TextUtils textUtils;
-    @Mock
-    GoogleSignInAccount googleSignInAccount;
+    UserService userService;
+
+
 
     @Before
     public void setUp() throws Exception {
-        presenter = new LoginPresenter(loginActivity);
+        presenter = new LoginPresenter(loginActivity,firebaseUserService,userService);
         presenter.takeView(view);
 
     }

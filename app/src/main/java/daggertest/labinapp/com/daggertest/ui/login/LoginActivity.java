@@ -1,15 +1,13 @@
-package daggertest.labinapp.com.daggertest.login;
+package daggertest.labinapp.com.daggertest.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
 
 import javax.inject.Inject;
 
@@ -17,55 +15,49 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import daggertest.labinapp.com.daggertest.R;
 import daggertest.labinapp.com.daggertest.base.BaseActivity;
-import daggertest.labinapp.com.daggertest.login.di.DaggerLoginComponent;
-import daggertest.labinapp.com.daggertest.login.di.LoginComponent;
-import daggertest.labinapp.com.daggertest.login.di.LoginModule;
-import timber.log.Timber;
+import daggertest.labinapp.com.daggertest.base.BaseApplication;
+import daggertest.labinapp.com.daggertest.data.model.User;
+import daggertest.labinapp.com.daggertest.data.source.remote.UserService;
+import daggertest.labinapp.com.daggertest.ui.login.di.LoginActivityModule;
+import daggertest.labinapp.com.daggertest.util.UserNotAuthenticated;
 
-/**
- * Created by ADMIN on 06-12-2017.
- */
+import static daggertest.labinapp.com.daggertest.util.NullChecker.isNotNull;
 
-public class LoginActivity extends BaseActivity implements LoginContract.View, GoogleApiClient.OnConnectionFailedListener {
 
-    public static final int RC_SIGN_IN = 9001;
+public class LoginActivity extends BaseActivity implements LoginContract.View {
+
     @Inject
     LoginPresenter mPresenter;
-    @Inject
-    GoogleApiClient googleApiClient;
+    public final int REQUEST_SIGN_GOOGLE = 9001;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
         ButterKnife.bind(this);
-        googleApiClient.connect();
     }
 
 
     @OnClick(R.id.googleLogin)
     public void googleLogin() {
-        if (googleApiClient != null) {
-
-            if (googleApiClient.isConnected())
-                googleApiClient.clearDefaultAccountAndReconnect();
-
-            startActivityForResult(Auth.GoogleSignInApi.getSignInIntent(googleApiClient), RC_SIGN_IN);
-        }
-
+        Intent intent = mPresenter.loginWithGoogle();
+        startActivityForResult(intent, REQUEST_SIGN_GOOGLE);
     }
 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == REQUEST_SIGN_GOOGLE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()) {
-                showProgressDialog();
-                mPresenter.logInWithFirebase(result.getSignInAccount());
-            }
+            checkResultThenProceedToLogin(result);
+        }
+    }
+
+    private void checkResultThenProceedToLogin(GoogleSignInResult result) {
+        if (isNotNull(result)) {
+            showProgressDialog();
+            mPresenter.logInWithFirebase(result.getSignInAccount());
         }
     }
 
@@ -97,16 +89,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, G
 
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Timber.e("onConntectionFailed %s", connectionResult.getErrorMessage());
-    }
-
-    @Override
     protected void setupActivityComponent() {
-        LoginComponent loginComponent = DaggerLoginComponent.builder()
-                .loginModule(new LoginModule(this))
-                .build();
-        loginComponent.inject(this);
-
+        BaseApplication.get(this).getAppComponent()
+                .plus(new LoginActivityModule(this))
+                .inject(this);
     }
 }

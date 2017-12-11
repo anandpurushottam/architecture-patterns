@@ -1,25 +1,17 @@
-package daggertest.labinapp.com.daggertest;
+package daggertest.labinapp.com.daggertest.ui.main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
-  /*  @Inject
-    Email email;
-    @Inject
-    EmailApi emailApi;*/
+import daggertest.labinapp.com.daggertest.R;
 
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-     /*   ((DaggerApp) getApplication()).getEmailComponent().inject(this);
-
-        email.send("first body");*/
-
     }
 
     public void doSomething(View view) {
