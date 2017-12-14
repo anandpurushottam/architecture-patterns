@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     defaultConfig {
-        applicationId "daggertest.labinapp.com.daggertest"
-        minSdkVersion 18
-        targetSdkVersion 26
+        applicationId "daggertest.labinapp.com"
+        minSdkVersion "$rootProject.minSdkVersion"
+        targetSdkVersion "$rootProject.targetSdkVersion"
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -19,6 +19,7 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+    buildToolsVersion "$rootProject.buildToolsVersion"
 }
 
 dependencies {
@@ -29,6 +30,7 @@ dependencies {
     implementation "com.google.firebase:firebase-auth:$rootProject.firebase"
     implementation "com.google.firebase:firebase-database:$rootProject.firebase"
     implementation "com.google.android.gms:play-services-auth:$rootProject.firebase"
+
     // Dagger dependencies
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
     provided 'org.glassfish:javax.annotation:10.0-b28'
@@ -36,14 +38,27 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$rootProject.daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"
     annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
-    implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttp"
+
+
     implementation "com.jakewharton.timber:timber:$rootProject.timber"
+
     //Butterknife dependencies
     implementation "com.jakewharton:butterknife:$rootProject.butterknife"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterknife"
+
     //Rx dependencies
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroid"
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxJava"
+
+    //OkHttp
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttp"
+    //Gson
+    implementation "com.google.code.gson:gson:$rootProject.gson"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitGson"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
+
     //Test dependencies
     testCompile 'org.mockito:mockito-core:2.13.0'
     testImplementation 'junit:junit:4.12'

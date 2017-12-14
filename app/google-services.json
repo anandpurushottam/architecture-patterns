@@ -110,17 +110,17 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:673446743776:android:67276a8378a57729",
+        "mobilesdk_app_id": "1:673446743776:android:7320a733762d9b44",
         "android_client_info": {
-          "package_name": "daggertest.labinapp.com.daggertest"
+          "package_name": "daggertest.labinapp.com"
         }
       },
       "oauth_client": [
         {
-          "client_id": "673446743776-86j8cfmvofgu8uvdjp4qcas9v2g2m97c.apps.googleusercontent.com",
+          "client_id": "673446743776-m77tsfr1itaiuvoka9e1gdh8r1rm2pnl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "daggertest.labinapp.com.daggertest",
+            "package_name": "daggertest.labinapp.com",
             "certificate_hash": "e37bca7be4221fd519aae47367d622931699b33b"
           }
         },

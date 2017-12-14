@@ -11,28 +11,33 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath 'com.google.gms:google-services:3.1.0'
+        classpath 'com.google.gms:google-services:3.1.1'
     }
 }
 // Define versions in a single place
 ext {
     // Sdk and tools
     // Support library and architecture components support minSdk 14 and above.
-    minSdkVersion = 14
-    targetSdkVersion = 26
-    compileSdkVersion = 26
-    buildToolsVersion = '26.0.2'
+    minSdkVersion = 18
+    targetSdkVersion = 27
+
+    buildToolsVersion = '27.0.0'
 
     // App dependencies
-    supportLibraryVersion = '26.1.0'
+    supportLibraryVersion = '27.0.+'
     daggerVersion = '2.11'
-    okhttp = '3.9.1'
+
     timber = '4.6.0'
     butterknife = '8.8.1'
     firebase = '11.6.2'
     mokito='2.+'
     rxAndroid='2.0.1'
     rxJava='2.0.7'
+
+    okhttp = '3.9.1'
+    retrofit='2.3.0'
+    gson='2.8.1'
+    retrofitGson='2.1.0'
 }
 allprojects {
     repositories {
